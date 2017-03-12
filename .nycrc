@@ -1,0 +1,23 @@
+{
+  "extension": [
+    ".jsx",
+    ".js"
+  ],
+  "exclude": [
+    "test",
+    "test{,-*}.js",
+    "**/*.test.js",
+    "**/__tests__/**",
+    "**/node_modules/**",
+    "**/tests/**"
+  ],
+  "reporter": [
+    "lcov",
+    "html",
+    "text-summary"
+  ],
+  "cache": true,
+  "sourceMap": false,
+  "instrument": false,
+  "report-dir": "./reports/coverage"
+}

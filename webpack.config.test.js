@@ -2,6 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const nodeExternals = require('webpack-node-externals');
+
+process.env.NODE_ENV='coverage';
+
 //noinspection JSUnresolvedFunction
 module.exports = {
     context: path.resolve(__dirname),
@@ -50,7 +53,17 @@ module.exports = {
 				test: /\.graphql$/,
 				loaders: ['graphql-tag/loader']
 			}
-        ]
+        ],
+		noParse: [
+			/sinon/,
+			/iconv-loader/,
+			/enzyme/
+		],
+		// enable sourcemaps support
+		output: {
+			devtoolModuleFilenameTemplate: '[absolute-resource-path]',
+			devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
+		}
     },
 	recordsPath: path.resolve(__dirname, './.build/server.json'),
     plugins: [
@@ -58,6 +71,6 @@ module.exports = {
 			SERVER: JSON.stringify(true),
 			CLIENT: JSON.stringify(false),
 		}),
-		new webpack.NamedModulesPlugin(),
+		new webpack.NamedModulesPlugin()
     ]
 };
