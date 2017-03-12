@@ -12,7 +12,8 @@
     "build:server": "webpack --config webpack.config.js",
     "build:server:watch": "webpack --watch --config webpack.config.js",
     "clean": "rimraf .build/.client && rimraf .build/.server",
-    "server": "cd .build && node .server/app.bundle.js && cd .."
+    "server": "cd .build && node .server/app.bundle.js && cd ..",
+    "test": "mocha-webpack --webpack-config webpack.config-test.js --reporter mocha-circleci-reporter src/**/*.spec.js"
   },
   "author": "",
   "license": "UNLICENSED",
@@ -36,6 +37,7 @@
     "json-loader": "^0.5.4",
     "mocha": "^3.2.0",
     "mocha-circleci-reporter": "0.0.2",
+    "mocha-webpack": "^0.7.0",
     "node-sass": "^4.5.0",
     "node-style-loader": "0.0.1-alpha",
     "noop-loader": "^1.0.0",
@@ -50,6 +52,7 @@
   },
   "dependencies": {
     "apollo-client": "^0.8.4",
+    "assert": "^1.4.1",
     "babel-runtime": "^6.22.0",
     "body-parser": "^1.16.0",
     "bootstrap-sass": "^3.3.7",

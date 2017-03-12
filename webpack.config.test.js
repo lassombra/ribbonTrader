@@ -6,19 +6,13 @@ const nodeExternals = require('webpack-node-externals');
 module.exports = {
     context: path.resolve(__dirname),
     target: 'node',
+	node: {
+		fs: 'empty'
+	},
 	externals: [nodeExternals()],
-    entry: {
-        app: ['isomorphic-fetch','./framework/bootstrap.js','./framework/webpackTools/poll'],
-    },
-	devtool: 'inline-source-map',
-    output: {
-        path: path.resolve(__dirname, '.build/.server'),
-        filename: '[name].bundle.js',
-    },
 	resolve: {
 		modules: [
 			'node_modules',
-			path.resolve(__dirname, 'framework/api'),
 			path.resolve(__dirname, 'src')
 		]
 	},
@@ -46,41 +40,24 @@ module.exports = {
 			},
 			{
 				test: /\.(scss|sass)$/,
-				loaders: [{
-					loader: 'css-loader/locals',
-					options: {
-						modules: false,
-						sourceMap: true,
-						camelCase: true
-					}
-				},'sass-loader']
+				loader: 'null-loader'
 			},
 			{
 				test: /\.css$/,
-				loader: {
-					loader: 'css-loader/locals',
-					options: {
-						modules: false,
-						sourceMap: true,
-						camelCase: true
-					}
-				}
+				loader: 'null-loader'
 			},
 			{
 				test: /\.graphql$/,
 				loaders: ['graphql-tag/loader']
-			},
+			}
         ]
     },
 	recordsPath: path.resolve(__dirname, './.build/server.json'),
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-		new webpack.BannerPlugin({banner:'require("source-map-support").install();', raw: true,  entryOnly: false}),
 		new webpack.DefinePlugin({
 			SERVER: JSON.stringify(true),
 			CLIENT: JSON.stringify(false),
 		}),
 		new webpack.NamedModulesPlugin(),
-		new ManifestPlugin()
     ]
 };
