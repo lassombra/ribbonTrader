@@ -1,0 +1,25 @@
+{
+	"presets": [
+		["latest",
+			{
+				"es2015": {
+					"modules": false
+				}
+			}
+		],
+		"stage-3"
+	],
+	"plugins": [
+		"transform-runtime",
+		"transform-react-jsx",
+		"transform-function-bind",
+		"transform-class-properties",
+		"transform-decorators-legacy",
+		"transform-export-extensions"
+	],
+	"env": {
+		"coverage": {
+			"plugins": ["istanbul"]
+		}
+	}
+}
