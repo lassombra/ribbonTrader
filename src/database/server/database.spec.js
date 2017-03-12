@@ -1,6 +1,6 @@
 const assert = require('chai').assert;
 
-describe('Database ORM Connectoins', function() {
+describe('Database ORM Connections', function() {
 	it('doesn\'t error', async function() {
 		const sequelize = require('./database.js').database;
 		const Sequelize = require('sequelize');
