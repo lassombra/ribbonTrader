@@ -14,7 +14,9 @@
     "build:server:watch": "webpack --watch --config webpack.config.js",
     "clean": "rimraf .build/.client && rimraf .build/.server",
     "server": "cd .build && node .server/app.bundle.js && cd ..",
-    "test": "nyc --report-dir=$CIRCLE_ARTIFACTS/reports mocha-webpack --webpack-config webpack.config-test.js --reporter mocha-circleci-reporter src/**/*.spec.js"
+    "coverage": "nyc --report-dir=$CIRCLE_ARTIFACTS/reports npm run test:run",
+    "test:run": "node node_modules\\mocha-webpack\\bin\\mocha-webpack --webpack-config webpack.config-test.js \"src/**/*.spec.js\"",
+    "test": "npm run coverage"
   },
   "author": "",
   "license": "GPL",

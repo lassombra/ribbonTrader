@@ -1,3 +1,3 @@
-import Sequelize from 'sequelize';
-
-export default new Sequelize(process.env.DATABASE_URL);
+// var Sequelize = require('sequelize');
+//
+// module.exports = new Sequelize(process.env.DATABASE_URL);

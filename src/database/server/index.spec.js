@@ -1,10 +1,10 @@
 const assert = require('chai').assert;
-const Sequelize = require('sequelize');
 
 describe('Database ORM Connectoins', function() {
-	it('doesn\'t error', async function() {
-		db = require('./index.js');
-		User = db.define('user', {
+	it('doesn\'t error', function() {
+		const Sequelize = require('sequelize');
+		var sequelize = new Sequelize(process.env.DATABASE_URL);
+		var User = sequelize.define('user', {
 			firstName: {
 				type: Sequelize.STRING,
 				field: 'first_name' // Will result in an attribute that is firstName when user facing but first_name in the database
@@ -15,14 +15,15 @@ describe('Database ORM Connectoins', function() {
 		}, {
 			freezeTableName: true // Model tableName will be the same as the model name
 		});
-
-		result = await User.sync({force: true}).then(function () {
+		assert.isOk(sequelize);
+		return User.sync({force: true}).then(function () {
 			// Table created
 			return User.create({
 				firstName: 'John',
 				lastName: 'Hancock'
 			});
+		}).then(function(user) {
+			assert.isOk(user);
 		});
-		assert.isOk(result);
 	});
 });
