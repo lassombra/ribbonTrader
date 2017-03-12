@@ -4,4 +4,5 @@ node_modules/
 .nyc_output/
 reports/
 $CIRCLE_ARTIFACTS/
+.build/
 test-results.xml
