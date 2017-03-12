@@ -4,7 +4,7 @@ describe('Database ORM Connectoins', function() {
 	it('doesn\'t error', async function() {
 		const sequelize = require('./database.js').database;
 		const Sequelize = require('sequelize');
-		const User = sequelize.define('user', {
+		const User = sequelize.define('test-user', {
 			firstName: {
 				type: Sequelize.STRING,
 				field: 'first_name' // Will result in an attribute that is firstName when user facing but first_name in the database
