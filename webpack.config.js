@@ -8,7 +8,7 @@ module.exports = {
     target: 'node',
 	externals: [nodeExternals()],
     entry: {
-        app: ['isomorphic-fetch','./framework/bootstrap.js','./framework/webpackTools/poll'],
+        app: ['isomorphic-fetch','./src/main.js'],
     },
 	devtool: 'inline-source-map',
     output: {

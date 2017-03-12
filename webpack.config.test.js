@@ -1,17 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
-const ManifestPlugin = require('webpack-manifest-plugin');
 const nodeExternals = require('webpack-node-externals');
 
 process.env.NODE_ENV='coverage';
 
 //noinspection JSUnresolvedFunction
 module.exports = {
-    context: path.resolve(__dirname),
-    target: 'node',
-	node: {
-		fs: 'empty'
-	},
+	context: path.resolve(__dirname),
+	target: 'node',
 	externals: [nodeExternals()],
 	resolve: {
 		modules: [
