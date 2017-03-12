@@ -34,6 +34,8 @@
     "file-loader": "^0.10.0",
     "java-properties-loader": "^0.2.0",
     "json-loader": "^0.5.4",
+    "mocha": "^3.2.0",
+    "mocha-circleci-reporter": "0.0.2",
     "node-sass": "^4.5.0",
     "node-style-loader": "0.0.1-alpha",
     "noop-loader": "^1.0.0",
