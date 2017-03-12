@@ -21,6 +21,7 @@ describe('Database ORM Connections', function() {
 			firstName: 'John',
 			lastName: 'Hancock'
 		});
-		assert.deepEqual(user, {firstName: 'John', lastName: 'Hancock'});
+		assert.propertyVal(user, 'firstName', 'John');
+		assert.propertyVal(user, 'lastName', 'Hancock');
 	});
 });
