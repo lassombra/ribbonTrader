@@ -1,4 +1,3 @@
-machine:
 test:
   override:
     - /bin/bash test.sh # use PHPunit for testing
