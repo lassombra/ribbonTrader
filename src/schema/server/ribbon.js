@@ -21,12 +21,13 @@ export const resolvers = {
 			return Ribbon.findOne({where: {id}});
 		},
 		getRibbons() {
-			return [];
+			return Ribbon.findAll();
 		}
 	},
 	Mutation: {
 		newRibbon(root, {ribbon}) {
-			return ribbon;
+			delete ribbon.id;
+			return Ribbon.create(ribbon);
 		}
 	}
 };

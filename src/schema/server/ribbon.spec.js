@@ -12,4 +12,12 @@ describe('Ribbon schema', function() {
 		expect(ribbon).to.exist;
 		expect(ribbon.id).to.equal(1);
 	});
+	it('create ribbon creates new one with id', async function(){
+		let ribbon = await resolvers.Mutation.newRibbon(undefined, {description: 'this is a test description'});
+		expect(ribbon).to.have.property('id').which.is.above(1);
+	});
+	it('get ribbons gets all ribbons in table', async function(){
+		let ribbons = await resolvers.Query.getRibbons();
+		expect(ribbons).to.have.length.at.least(1);
+	})
 });
