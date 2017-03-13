@@ -74,13 +74,11 @@ module.exports = {
     },
 	recordsPath: path.resolve(__dirname, './.build/server.json'),
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
 		new webpack.BannerPlugin({banner:'require("source-map-support").install();', raw: true,  entryOnly: false}),
 		new webpack.DefinePlugin({
 			SERVER: JSON.stringify(true),
 			CLIENT: JSON.stringify(false),
 		}),
 		new webpack.NamedModulesPlugin(),
-		new ManifestPlugin()
     ]
 };

@@ -2,6 +2,7 @@ const assert = require('chai').assert;
 
 describe('Database ORM Connections', function() {
 	it('doesn\'t error', async function() {
+		this.timeout(5000);
 		const sequelize = require('./database.js').database;
 		const Sequelize = require('sequelize');
 		const User = sequelize.define('test-user', {

@@ -10,4 +10,4 @@ export const Ribbon = database.define('ribbon', {
 	}
 });
 
-export const waitSync = Ribbon.sync({force:true});
+export const waitSync = Ribbon.sync();
