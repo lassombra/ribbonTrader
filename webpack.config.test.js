@@ -1,5 +1,6 @@
 var nodeExternals = require('webpack-node-externals');
 const path = require('path');
+process.env.NODE_ENV = 'coverage';
 
 module.exports = {
 	target: 'node', // in order to ignore built-in modules like path, fs, etc.
