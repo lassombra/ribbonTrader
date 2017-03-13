@@ -1,0 +1,31 @@
+export const types = [`type Ribbon {
+	id: Int!
+	image: String
+	description: String
+}`, `input RibbonInput {
+	id: Int
+	image: String
+	description: String
+}`];
+export const query = [
+	`getRibbon(id: Int!): Ribbon`,
+	`getRibbons: [Ribbon!]!`
+];
+export const mutation = [
+	`newRibbon(ribbon: RibbonInput!): Ribbon!`,
+];
+export const resolvers = {
+	Query: {
+		getRibbon() {
+			return null;
+		},
+		getRibbons() {
+			return [];
+		}
+	},
+	Mutation: {
+		newRibbon(root, {ribbon}) {
+			return ribbon;
+		}
+	}
+};
