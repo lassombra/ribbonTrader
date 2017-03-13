@@ -5,7 +5,7 @@ deployment:
   production:
     branch: master
     codedeploy:
-      ribbonTrader:
+      conRibbons:
         application_root: /
         region: us-east-1
         revision_location:
@@ -13,4 +13,4 @@ deployment:
           s3_location:
             bucket: deploys.conribbons.com
             key_pattern: ribbonTrader-{BRANCH}-{SHORT_COMMIT}
-        deployment_group: reibbonTrader
+        deployment_group: conRibbons
