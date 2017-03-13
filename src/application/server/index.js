@@ -5,6 +5,7 @@ import {graphqlExpress} from 'graphql-server-express';
 import { graphiqlExpress } from 'graphql-server-express';
 import fs from 'fs';
 import path from 'path';
+import googleUserVerify from 'google/googleUserVerify';
 
 const PORT=3000;
 const GraphQLOptions = {
@@ -19,8 +20,17 @@ fs.readFile(path.resolve('./.client/manifest.json'), 'utf-8', (error, result) =>
 	}
 });
 
+async function options(req) {
+	let options = {...GraphQLOptions};
+	if (req.headers.authorization) {
+		let user = await googleUserVerify(req.headers.authorization);
+		options.context = {user};
+	}
+	return options;
+}
+
 const app = express();
-app.use('/graphql', bodyParser.json(), graphqlExpress(GraphQLOptions));
+app.use('/graphql', bodyParser.json(), graphqlExpress(options));
 app.use('/graphiql', graphiqlExpress({
 	endpointURL: '/graphql',
 }));

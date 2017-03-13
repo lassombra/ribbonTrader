@@ -6,12 +6,26 @@ import Handler from 'handler';
 import GraphiQL from 'graphiql';
 import 'graphiql/graphiql.css';
 import fetch from 'isomorphic-fetch';
+import Login from './login';
+import loadGAuth from 'google/google-api';
 
-function graphQLFetcher(graphQLParams) {
-	return fetch(window.location.origin + '/graphql', {
-		method: 'post',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(graphQLParams),
+let GAuth = loadGAuth();
+
+async function graphQLFetcher(graphQLParams) {
+	return GAuth.then((authFunc) => {
+		const auth = authFunc();
+		const token = auth.currentUser.get().getAuthResponse().id_token;
+		return token || null;
+	}).then(token => {
+		let headers = {'Content-Type': 'application/json'};
+		if (token) {
+			headers.authorization = token;
+		}
+		return fetch(window.location.origin + '/graphql', {
+			method: 'post',
+			headers,
+			body: JSON.stringify(graphQLParams),
+		})
 	}).then(response => response.json());
 }
 
@@ -21,7 +35,7 @@ function graphQLFetcher(graphQLParams) {
 export default class Home extends React.Component {
 	render() {
 		return <div>
-			<h1>Ribbon Trader</h1>
+			<h1>Ribbon Trader <Login /></h1>
 			{this.props.data.getRibbons ? <table>
 					<thead><tr><th>id</th><th>description</th></tr></thead>
 					<tbody>
