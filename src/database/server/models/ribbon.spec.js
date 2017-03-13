@@ -1,14 +1,11 @@
 import {expect} from 'chai';
-import {Ribbon, waitSync} from './ribbon';
+import {Ribbon} from './ribbon';
+import scaffold from './ribbon.scaffold';
 
 describe('Ribbon ORM', function() {
 	before(async function() {
 		this.timeout(5000);
-		expect(waitSync).to.exist;
-		await waitSync;
-		await Ribbon.create({
-			description: 'Some ribbon here'
-		});
+		await scaffold();
 	});
 	it('has image from S3');
 	it('has tags');
