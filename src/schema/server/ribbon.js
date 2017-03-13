@@ -1,3 +1,4 @@
+import {Ribbon} from 'database/server/models/ribbon';
 export const types = [`type Ribbon {
 	id: Int!
 	image: String
@@ -16,8 +17,8 @@ export const mutation = [
 ];
 export const resolvers = {
 	Query: {
-		getRibbon() {
-			return null;
+		getRibbon(root, {id}) {
+			return Ribbon.findOne({where: {id}});
 		},
 		getRibbons() {
 			return [];
