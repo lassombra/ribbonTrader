@@ -1,36 +1,20 @@
-const path = require('path');
-const webpack = require('webpack');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const nodeExternals = require('webpack-node-externals');
+var nodeExternals = require('webpack-node-externals');
 
-process.env.NODE_ENV='coverage';
-
-//noinspection JSUnresolvedFunction
 module.exports = {
-    context: path.resolve(__dirname),
-    target: 'node',
-	node: {
-		fs: 'empty'
-	},
-	externals: [nodeExternals()],
-	resolve: {
-		modules: [
-			'node_modules',
-			path.resolve(__dirname, 'src')
-		]
-	},
+	target: 'node', // in order to ignore built-in modules like path, fs, etc.
+	externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
 	module: {
-        loaders: [
-            {
-                test: /\.js(x?)$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: {
-                	loader:'babel-loader',
-	                options: {
-                		cacheDirectory: './.build/.cache'
-	                }
-                },
-            },
+		loaders: [
+			{
+				test: /\.js(x?)$/,
+				exclude: /(node_modules|bower_components)/,
+				loader: {
+					loader: 'babel-loader',
+					options: {
+						cacheDirectory: './.build/.cache'
+					}
+				},
+			},
 			{
 				test: /client[\\\/].*$/,
 				exclude: /(node_modules|bower_components)/,
@@ -53,24 +37,6 @@ module.exports = {
 				test: /\.graphql$/,
 				loaders: ['graphql-tag/loader']
 			}
-        ],
-		noParse: [
-			/sinon/,
-			/iconv-loader/,
-			/enzyme/
 		],
-		// enable sourcemaps support
-		output: {
-			devtoolModuleFilenameTemplate: '[absolute-resource-path]',
-			devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
-		}
-    },
-	recordsPath: path.resolve(__dirname, './.build/server.json'),
-    plugins: [
-		new webpack.DefinePlugin({
-			SERVER: JSON.stringify(true),
-			CLIENT: JSON.stringify(false),
-		}),
-		new webpack.NamedModulesPlugin()
-    ]
-};
+	}
+}
