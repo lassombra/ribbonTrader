@@ -71,6 +71,9 @@ hooks:
     - location: installDependencies.sh
       timeout: 5000
       runas: ubuntu
+    - location: build.sh
+      timeout: 5000
+      runas: ubuntu
 # During the ApplicationInstall deployment lifecycle event, run the commands
 #   in the script specified in "location".
   ApplicationStart:
