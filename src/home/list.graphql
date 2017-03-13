@@ -1,0 +1,6 @@
+query{
+    getRibbons{
+        id
+        description
+    }
+}

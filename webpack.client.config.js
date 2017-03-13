@@ -2,13 +2,12 @@ const path = require('path');
 const webpack = require('webpack');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
 const extractMainCSS = new ExtractTextPlugin({filename: '[name].[hash].css'});
 const extractHeadCSS = new ExtractTextPlugin({filename: '[name].head.css'});
 module.exports = {
     context: path.resolve(__dirname),
     entry: {
-        app: ['isomorphic-fetch','./framework/bootstrap.js'],
+        app: ['isomorphic-fetch','./src/main.js'],
     },
 	devtool: 'inline-source-map',
     output: {
@@ -19,7 +18,6 @@ module.exports = {
 	resolve: {
 		modules: [
 			'node_modules',
-			path.resolve(__dirname, 'framework/api'),
 			path.resolve(__dirname, 'src')
 		]
 	},
@@ -46,7 +44,8 @@ module.exports = {
 				loaders: ['json-loader', 'java-properties-loader']
 			},
 			{
-				test: /^((?!important\.(scss|sass)).)*\.(scss|sass)$/,
+				// test: /^((?!important\.(scss|sass)).)*\.(scss|sass)$/,
+				test: /\.(scss|sass)$/,
 				use: extractMainCSS.extract([{
 					loader: 'css-loader',
 					options: {
@@ -59,28 +58,53 @@ module.exports = {
 					}
 				}])
 			},
-			{
-				test: /\.important\.(scss|sass)$/,
-				use: extractHeadCSS.extract(
-					[
-						{
-							loader: 'css-loader',
-							options: {
-								sourceMap: true,
-								minimize: true,
-								importLoaders: 1
-							}
-						}, {
-							loader: 'sass-loader',
-							options: {
-								sourceMap: true,
-								outputStyle: 'expanded',
-								sourceMapContents: true
-							}
-						}
-					]
-				),
-			},
+			// {
+			// 	test: /\.important\.(scss|sass)$/,
+			// 	use: extractHeadCSS.extract(
+			// 		[
+			// 			{
+			// 				loader: 'css-loader',
+			// 				options: {
+			// 					sourceMap: true,
+			// 					minimize: true,
+			// 					importLoaders: 1
+			// 				}
+			// 			}, {
+			// 				loader: 'sass-loader',
+			// 				options: {
+			// 					sourceMap: true,
+			// 					outputStyle: 'expanded',
+			// 					sourceMapContents: true
+			// 				}
+			// 			}
+			// 		]
+			// 	),
+			// },
+	        {
+		        // test: /^((?!important\.css).)*\.css$/,
+		        test: /\.css$/,
+		        use: extractMainCSS.extract([{
+			        loader: 'css-loader',
+			        options: {
+				        sourceMap: true,
+			        }
+		        }])
+	        },
+	        // {
+	        // 	test: /\.important\.css$/,
+	        // 	use: extractHeadCSS.extract(
+	        // 		[
+	        // 			{
+	        // 				loader: 'css-loader',
+	        // 				options: {
+	        // 					sourceMap: true,
+	        // 					minimize: true,
+	        // 					importLoaders: 1
+	        // 				}
+	        // 			}
+	        // 		]
+	        // 	),
+	        // },
 	        {
 	        	test: /\.(eot|ttf|woff|woff2|svg)$/,
 		        loader: 'file-loader'
@@ -100,7 +124,7 @@ module.exports = {
 		}),
 		new webpack.NamedModulesPlugin(),
 		new ManifestPlugin(),
-		extractHeadCSS,
+		// extractHeadCSS,
 		extractMainCSS,
     ]
 };
