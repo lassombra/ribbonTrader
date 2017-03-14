@@ -27,6 +27,7 @@ describe('Database ORM Connections', function() {
 		assert.propertyVal(user, 'lastName', 'Hancock');
 	});
 	it('scaffolds cleanly', function() {
+		this.timeout(5000);
 		return scaffold();
 	})
 });

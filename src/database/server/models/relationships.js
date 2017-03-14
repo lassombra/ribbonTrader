@@ -1,11 +1,10 @@
 import {Ribbon} from './ribbon';
 import {User} from './user';
 
-console.log(Ribbon, User);
-console.log(Ribbon.belongsTo, User.hasMany);
 Ribbon.belongsTo(User, {
+	as: 'Owner',
 	foreignKey: {
-		nullable: false
+		allowNull: false
 	}
 });
-User.hasMany(Ribbon);
+User.hasMany(Ribbon, {as: 'Owner'});

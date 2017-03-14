@@ -13,7 +13,7 @@ export default function scaffold() {
 			.then(user => ({user, ribbon:Ribbon.build({
 				description: 'Some ribbon here'
 			})}))
-			.then(({user, ribbon}) => ribbon.setUser(user))
+			.then(({user, ribbon}) => ribbon.setOwner(user))
 			.then(ribbon => ribbon.save());
 	}
 	return run;

@@ -13,7 +13,10 @@ describe('Ribbon schema', function() {
 		expect(ribbon.id).to.equal(1);
 	});
 	it('create ribbon creates new one with id', async function(){
-		let ribbon = await resolvers.Mutation.newRibbon(undefined, {ribbon: {description: 'this is a test description'}});
+		let ribbon = await resolvers.Mutation.newRibbon(undefined, {ribbon: {description: 'this is a test description'}}, {user: {
+			id: 'fakeKey',
+			name: 'fake User'
+		}});
 		expect(ribbon).to.have.property('id').which.is.above(1);
 	});
 	it('get ribbons gets all ribbons in table', async function(){

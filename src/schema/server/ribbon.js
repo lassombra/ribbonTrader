@@ -25,9 +25,19 @@ export const resolvers = {
 		}
 	},
 	Mutation: {
-		newRibbon(root, {ribbon}) {
+		async newRibbon(root, {ribbon}, {user}) {
 			delete ribbon.id;
-			return Database.Ribbon.create(ribbon);
+			if (!user) {
+				throw 'can\'t create ribbon without user';
+			}
+			let dbUser = await Database.User.findOne({googleKey: user.id});
+			if (!dbUser) {
+				throw 'can\'t create ribbon because user not in database';
+			}
+			let dbRibbon = await Database.Ribbon.build(ribbon);
+			await dbRibbon.setOwner(dbUser);
+			await dbRibbon.save();
+			return dbRibbon;
 		}
 	}
 };
