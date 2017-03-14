@@ -14,5 +14,3 @@ export const Ribbon = database.define('ribbon', {
 		type: Sequelize.STRING(1200)
 	}
 });
-
-export const waitSync = Ribbon.sync();

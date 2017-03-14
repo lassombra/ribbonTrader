@@ -1,1 +1,1 @@
-export {Ribbon} from './models/ribbon';
+export * as Database from './models';

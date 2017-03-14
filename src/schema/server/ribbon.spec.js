@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {resolvers} from './ribbon';
-import scaffold from 'database/server/models/ribbon.scaffold';
+import scaffold from 'database/server/database.scaffold';
 
 describe('Ribbon schema', function() {
 	before(async function() {

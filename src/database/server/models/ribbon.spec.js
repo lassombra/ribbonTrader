@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {Ribbon} from './ribbon';
-import scaffold from './ribbon.scaffold';
+import scaffold from '../database.scaffold';
 
 describe('Ribbon ORM', function() {
 	before(async function() {
