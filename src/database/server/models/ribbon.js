@@ -11,6 +11,11 @@ export const Ribbon = database.define('ribbon', {
 		type: Sequelize.STRING
 	},
 	description: {
-		type: Sequelize.STRING(1200)
+		type: Sequelize.STRING(1200),
+		allowNull: false,
+	},
+	title: {
+		type: Sequelize.STRING,
+		allowNull: false,
 	}
 });

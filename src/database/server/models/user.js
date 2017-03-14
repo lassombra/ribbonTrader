@@ -8,10 +8,20 @@ export const User = database.define('user', {
 		autoIncrement: true,
 		primaryKey: true
 	},
-	picture: {
-		type: Sequelize.STRING
+	googlePicture: {
+		type: Sequelize.STRING,
+		allowNull: false
 	},
 	name: {
+		type: Sequelize.STRING,
+		allowNull: false
+	},
+	admin: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: false,
+		allowNull: false
+	},
+	displayedName: {
 		type: Sequelize.STRING
 	},
 	sched: {
@@ -19,6 +29,7 @@ export const User = database.define('user', {
 	},
 	googleKey: {
 		type: Sequelize.STRING(21),
-		unique: true
+		unique: true,
+		allowNull: false
 	}
 });

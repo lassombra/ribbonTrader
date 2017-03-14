@@ -11,7 +11,8 @@ describe('Ribbon ORM', function() {
 	it('has tags');
 	it('has description', async function() {
 		this.timeout(5000);
-		let ribbon = await Ribbon.findOne({where: {description: 'Some ribbon here'}});
+		let ribbon = await Ribbon.findOne();
 		expect(ribbon).to.exist;
+		expect(ribbon.description).to.exist;
 	});
 });

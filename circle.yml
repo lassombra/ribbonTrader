@@ -1,3 +1,6 @@
+database:
+  override:
+    - mysql -u ubuntu circle_test < scaffold.sql
 test:
   override:
     - /bin/bash test.sh # use PHPunit for testing
