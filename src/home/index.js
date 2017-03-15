@@ -30,25 +30,10 @@ async function graphQLFetcher(graphQLParams) {
 }
 
 
-@graphql(query)
-@graphql(mutation)
 export default class Home extends React.Component {
 	render() {
 		return <div>
 			<h1>Ribbon Trader <Login /></h1>
-			{this.props.data.getRibbons ? <table>
-					<thead><tr><th>id</th><th>description</th></tr></thead>
-					<tbody>
-					{this.props.data.getRibbons.map(ribbon => <tr key={ribbon.id}>
-						<td>{ribbon.id}</td>
-						<td>{ribbon.description}</td>
-					</tr>)}
-					</tbody>
-				</table> : null}
-			<form onSubmit={this.newRibbon}>
-				<input name="description" />
-				<button type="subit">Add ribbon</button>
-			</form>
 			<GraphiQL fetcher={graphQLFetcher} />
 		</div>;
 	}
