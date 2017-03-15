@@ -7,8 +7,6 @@ describe('Ribbon ORM', function() {
 		this.timeout(5000);
 		await scaffold();
 	});
-	it('has image from S3');
-	it('has tags');
 	it('has description', async function() {
 		this.timeout(5000);
 		let ribbon = await Ribbon.findOne();

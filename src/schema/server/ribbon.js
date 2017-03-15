@@ -119,7 +119,7 @@ export const resolvers = {
 			dbRibbon = await dbRibbon.save();
 			await dbRibbon.setAvailabilityTypes(tags);
 			dbRibbon = await dbRibbon.save();
-			return await Database.Ribbon.findOne({where: {id: dbRibbon.id}});
+			return await Database.Ribbon.findOne({where: {id: dbRibbon.id}, include: [{all: true}]});
 		},
 		async deleteRibbon(root, {id}, context) {
 			let dbUser = await getDBUser(context);
