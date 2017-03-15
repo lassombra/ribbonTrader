@@ -18,4 +18,4 @@ export const Ribbon = database.define('ribbon', {
 		type: Sequelize.STRING,
 		allowNull: false,
 	}
-});
+}, {paranoid: true});

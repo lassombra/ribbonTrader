@@ -7,6 +7,7 @@ export const types = [`type CurrentUser {
 	admin: Boolean!
 	displayedName: String
 	sched: String
+	ribbons: [Ribbon!]!
 }`, `input CurrentUserInput {
 	displayedName: String
 	sched: String
@@ -15,6 +16,7 @@ export const types = [`type CurrentUser {
 	googlePicture: String!
 	sched: String
 	name: String!
+	ribbons: [Ribbon!]!
 }`];
 export const query = [
 	`getCurrentUser: CurrentUser`,
@@ -27,6 +29,28 @@ export const resolvers = {
 	User: {
 		name(user) {
 			return user.displayedName || user.name;
+		},
+		ribbons(user) {
+			return Database.Ribbon.findAll({
+				include: [{
+					model: Database.User,
+					as: 'Owner',
+					where: {id: user.id}
+				}, Database.Tag],
+				subQuery: false
+			});
+		}
+	},
+	CurrentUser: {
+		ribbons(user) {
+			return Database.Ribbon.findAll({
+				include: [{
+					model: Database.User,
+					as: 'Owner',
+					where: {id: user.id}
+				}, Database.Tag],
+				subQuery: false
+			});
 		}
 	},
 	Query: {
