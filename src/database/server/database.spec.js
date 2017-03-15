@@ -1,4 +1,5 @@
 const assert = require('chai').assert;
+import scaffold from './database.scaffold';
 
 describe('Database ORM Connections', function() {
 	it('doesn\'t error', async function() {
@@ -25,4 +26,8 @@ describe('Database ORM Connections', function() {
 		assert.propertyVal(user, 'firstName', 'John');
 		assert.propertyVal(user, 'lastName', 'Hancock');
 	});
+	it('scaffolds cleanly', function() {
+		this.timeout(5000);
+		return scaffold();
+	})
 });

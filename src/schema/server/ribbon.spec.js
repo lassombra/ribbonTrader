@@ -1,6 +1,7 @@
 import {expect} from 'chai';
 import {resolvers} from './ribbon';
-import scaffold from 'database/server/models/ribbon.scaffold';
+import {Database} from 'database/server';
+import scaffold from 'database/server/database.scaffold';
 
 describe('Ribbon schema', function() {
 	before(async function() {
@@ -13,7 +14,15 @@ describe('Ribbon schema', function() {
 		expect(ribbon.id).to.equal(1);
 	});
 	it('create ribbon creates new one with id', async function(){
-		let ribbon = await resolvers.Mutation.newRibbon(undefined, {ribbon: {description: 'this is a test description'}});
+		let user = await Database.User.findOne({id: 2});
+		let context = {
+			user: user ? {
+				id: user.googleKey,
+				name: user.name,
+				image: user.googlePicture
+			}: undefined
+		};
+		let ribbon = await resolvers.Mutation.newRibbon(undefined, {ribbon: {title: 'a ribbon', description: 'this is a test description'}}, context);
 		expect(ribbon).to.have.property('id').which.is.above(1);
 	});
 	it('get ribbons gets all ribbons in table', async function(){
