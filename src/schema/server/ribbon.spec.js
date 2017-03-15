@@ -40,7 +40,7 @@ describe('Ribbon schema', function() {
 		for (let key in result) {
 			result[key] = await result[key];
 		}
-		let firstRibbon = await (Database.Ribbon.findAll({
+		let firstRibbon = (await Database.Ribbon.findAll({
 			offset: 25,
 			limit: 1,
 			order: [['updatedAt','DESC']],
