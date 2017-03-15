@@ -22,7 +22,7 @@ describe('Ribbon schema', function() {
 				image: user.googlePicture
 			}: undefined
 		};
-		let ribbon = await resolvers.Mutation.newRibbon(undefined, {ribbon: {description: 'this is a test description'}}, context);
+		let ribbon = await resolvers.Mutation.newRibbon(undefined, {ribbon: {title: 'a ribbon', description: 'this is a test description'}}, context);
 		expect(ribbon).to.have.property('id').which.is.above(1);
 	});
 	it('get ribbons gets all ribbons in table', async function(){
