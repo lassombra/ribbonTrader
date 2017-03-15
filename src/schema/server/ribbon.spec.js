@@ -42,7 +42,7 @@ describe('Ribbon schema', function() {
 		}
 		let firstRibbon = (await Database.Ribbon.findAll({
 			offset: 25,
-			limit: 1,
+			limit: 25,
 			order: [['updatedAt','DESC']],
 			include: [{
 				model: Database.User,
