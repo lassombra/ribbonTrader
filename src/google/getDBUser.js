@@ -2,7 +2,7 @@ import {Database} from 'database/server';
 
 export default function getUserFromDB(context) {
 	if (!context.user) {
-		return null;
+		return Promise.resolve(null);
 	}
 	if (!context.dbUser) {
 		context.dbUser = syncDBUser(context);

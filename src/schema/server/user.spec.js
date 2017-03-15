@@ -31,7 +31,7 @@ describe('User Schema', function(){
 		expect(user).to.equal(null);
 	});
 	it('gets user by id', async function() {
-		let user = await resolvers.Query.getCurrentUser(undefined, {id: 3});
+		let user = await resolvers.Query.getUser(undefined, {id: 3}, {});
 		expect(user).to.exist;
 		expect(user.id).to.equal(3);
 		expect(user.name).to.be.ok;
@@ -39,7 +39,7 @@ describe('User Schema', function(){
 	it('saves display name for user', async function() {
 		let context = {user: {...authedUser}};
 		let name = faker.name.firstName();
-		let user = await resolvers.Mutation.updateCurrentUser(undefined, {displayedName: name}, context);
+		let user = await resolvers.Mutation.updateCurrentUser(undefined, {currentUser: {displayedName: name}}, context);
 		let dbUser = await Database.User.findOne({where: {id: user.id}});
 		expect(user).to.be.ok;
 		expect(user.displayedName).to.equal(name);
@@ -47,15 +47,15 @@ describe('User Schema', function(){
 	});
 	it('fails to save display name if not logged in', async function(){
 		let name = faker.name.firstName();
-		let user = await resolvers.Mutation.updateCurrentUser(undefined, {displayedName: name}, {});
+		let user = await resolvers.Mutation.updateCurrentUser(undefined, {currentUser: {displayedName: name}}, {});
 		expect(user).to.not.be.ok;
 		expect(user).to.equal(null);
 	});
 	it('deletes display name (sets to null)', async function(){
 		let context = {user: {...authedUser}};
 		let name = faker.name.firstName();
-		let user = await resolvers.Mutation.updateCurrentUser(undefined, {displayedName: name}, context);
-		user = await resolvers.Mutation.updateCurrentUser(undefined, {displayedName: null}, context);
+		let user = await resolvers.Mutation.updateCurrentUser(undefined, {currentUser: {displayedName: name}}, context);
+		user = await resolvers.Mutation.updateCurrentUser(undefined, {currentUser: {displayedName: null}}, context);
 		expect(user.displayedName).to.equal(null);
 	});
 });
