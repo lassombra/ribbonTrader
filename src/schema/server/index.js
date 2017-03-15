@@ -1,15 +1,12 @@
 import {merge} from 'lodash';
 import * as Ribbon from './ribbon';
+import * as User from './user';
 import {makeExecutableSchema} from 'graphql-tools';
 
-let query = [...Ribbon.query, 'currentUser: User'];
-let mutation = [...Ribbon.mutation];
-let resolvers = merge({}, Ribbon.resolvers, {Query: {currentUser: (root, args, context) => context && context.user}});
-let types = [...Ribbon.types, `type User {
-	id: String
-	name: String
-	image: String
-}`];
+let query = [...Ribbon.query, ...User.query];
+let mutation = [...Ribbon.mutation, ...User.mutation];
+let resolvers = merge({}, Ribbon.resolvers, User.resolvers);
+let types = [...Ribbon.types, ...User.types];
 
 query = query.map(field => '\t'+field);
 query = 'type Query {\n'+query+'\n}';
