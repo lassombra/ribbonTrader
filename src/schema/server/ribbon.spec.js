@@ -41,7 +41,7 @@ describe('Ribbon schema', function() {
 			result[key] = await result[key];
 		}
 		let firstRibbon = (await Database.Ribbon.findAll({
-			offset: 25,
+			offset: 0,
 			limit: 25,
 			order: [['updatedAt','DESC']],
 			include: [{
@@ -53,7 +53,7 @@ describe('Ribbon schema', function() {
 		result.should.exist;
 		result.should.have.property('count').which.is.above(25);
 		result.should.have.property('ribbons').which.has.length(25);
-		result.ribbons[0].id.should.equal(firstRibbon.id);
+		result.ribbons[0].id.should.not.equal(firstRibbon.id);
 	});
 	it('find gets a paged result set', async function() {
 		let result = resolvers.Query.findRibbons(root, {});
