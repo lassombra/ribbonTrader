@@ -40,7 +40,16 @@ describe('Ribbon schema', function() {
 		for (let key in result) {
 			result[key] = await result[key];
 		}
-		let firstRibbon = await Database.Ribbon.findOne({offset: 25, order: [['updatedAt','DESC']]});
+		let firstRibbon = await (Database.Ribbon.findAll({
+			offset: 25,
+			limit: 1,
+			order: [['updatedAt','DESC']],
+			include: [{
+				model: Database.User,
+				as: 'Owner'
+			}, Database.Tag],
+			subQuery: false
+		}))[0];
 		result.should.exist;
 		result.should.have.property('count').which.is.above(25);
 		result.should.have.property('ribbons').which.has.length(25);
