@@ -1,6 +1,7 @@
 import {expect} from 'chai';
 import {Database} from 'database/server';
 import {resolvers} from './user';
+import faker from 'faker';
 describe('User Schema', function(){
 	let authedUser;
 	before(function() {
@@ -29,8 +30,32 @@ describe('User Schema', function(){
 		expect(user).to.not.be.ok;
 		expect(user).to.equal(null);
 	});
-	it('gets user by id');
-	it('saves display name for user');
-	it('fails to save display name if not logged in');
-	it('deletes display name (sets to null)');
+	it('gets user by id', async function() {
+		let user = await resolvers.Query.getCurrentUser(undefined, {id: 3});
+		expect(user).to.exist;
+		expect(user.id).to.equal(3);
+		expect(user.name).to.be.ok;
+	});
+	it('saves display name for user', async function() {
+		let context = {user: {...authedUser}};
+		let name = faker.name.firstName();
+		let user = await resolvers.Mutation.updateCurrentUser(undefined, {displayedName: name}, context);
+		let dbUser = await Database.User.findOne({where: {id: user.id}});
+		expect(user).to.be.ok;
+		expect(user.displayedName).to.equal(name);
+		expect(dbUser.displayedName).to.equal(name);
+	});
+	it('fails to save display name if not logged in', async function(){
+		let name = faker.name.firstName();
+		let user = await resolvers.Mutation.updateCurrentUser(undefined, {displayedName: name}, {});
+		expect(user).to.not.be.ok;
+		expect(user).to.equal(null);
+	});
+	it('deletes display name (sets to null)', async function(){
+		let context = {user: {...authedUser}};
+		let name = faker.name.firstName();
+		let user = await resolvers.Mutation.updateCurrentUser(undefined, {displayedName: name}, context);
+		user = await resolvers.Mutation.updateCurrentUser(undefined, {displayedName: null}, context);
+		expect(user.displayedName).to.equal(null);
+	});
 });
