@@ -36,6 +36,7 @@ export const resolvers = {
 				throw 'can\'t create ribbon because user not in database';
 			}
 			let dbRibbon = await Database.Ribbon.build(ribbon);
+			console.log(dbRibbon.description);
 			await dbRibbon.setOwner(dbUser);
 			await dbRibbon.save();
 			return dbRibbon;
