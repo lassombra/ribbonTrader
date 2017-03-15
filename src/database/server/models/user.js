@@ -1,6 +1,5 @@
 import {database} from '../database';
 const Sequelize = require('sequelize');
-import {Ribbon} from './ribbon';
 
 export const User = database.define('user', {
 	id: {
