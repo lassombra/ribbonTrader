@@ -32,6 +32,7 @@ export const query = [
 ];
 export const mutation = [
 	`newOrUpdatedRibbon(ribbon: RibbonInput!): Ribbon!`,
+	`deleteRibbon(id: Int!): Boolean!`
 ];
 export const resolvers = {
 	Ribbon: {
@@ -115,9 +116,18 @@ export const resolvers = {
 			tags = await tags;
 			dbRibbon = dbRibbon ? await (dbRibbon.update(ribbon, {save: false})) : Database.Ribbon.build(ribbon);
 			dbRibbon.setOwner(dbUser, {save: false});
-			dbRibbon.setAvailabilityTypes(tags, {save: false});
 			dbRibbon = await dbRibbon.save();
-			return Database.Ribbon.findOne({where: {id: dbRibbon.id}});
+			await dbRibbon.setAvailabilityTypes(tags);
+			dbRibbon = await dbRibbon.save();
+			return await Database.Ribbon.findOne({where: {id: dbRibbon.id}});
+		},
+		async deleteRibbon(root, {id}, context) {
+			let dbUser = await getDBUser(context);
+			if (!dbUser) return false;
+			let dbRibbon = await Database.Ribbon.findOne({where: {id}});
+			if (!dbRibbon || dbRibbon.OwnerId != dbUser.id) return false;
+			let count = await dbRibbon.destroy();
+			return !!count;
 		}
 	}
 };
