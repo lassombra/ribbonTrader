@@ -54,10 +54,16 @@ export const resolvers = {
 			page = page || 0;
 			return {
 				count: Database.Ribbon.count(),
-				ribbons: Database.Ribbon.findAll({offset: 25 * page, limit: 25, include: [{
-					model: Database.User,
-					as: 'Owner'
-				}, Database.Tag], subQuery: false})
+				ribbons: Database.Ribbon.findAll({
+					offset: 25 * page,
+					limit: 25,
+					order: [['updatedAt','DESC']],
+					include: [{
+						model: Database.User,
+						as: 'Owner'
+					}, Database.Tag],
+					subQuery: false
+				})
 			};
 		},
 		findRibbons(root, {search, Tags, page}){
@@ -78,6 +84,7 @@ export const resolvers = {
 			let count = Database.Ribbon.count(options);
 			options.offset = page * 25;
 			options.limit = 25;
+			options.order = [['updatedAt','DESC']];
 			if (Tags) {
 				options.include.push({
 					model: Database.User,
