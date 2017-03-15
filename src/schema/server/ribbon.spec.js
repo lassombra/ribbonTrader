@@ -17,7 +17,7 @@ describe('Ribbon schema', function() {
 				model: Database.User,
 				as: 'Owner',
 				where: {id: {$ne: 3}}
-			}]})
+			}], subQuery: false})
 				.then(ribbon => anotherUsersRibbon = ribbon)
 		]);
 	});

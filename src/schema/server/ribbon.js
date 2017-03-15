@@ -48,7 +48,7 @@ export const resolvers = {
 			return Database.Ribbon.findOne({where: {id}, include: [{
 				model: Database.User,
 				as: 'Owner'
-			}, Database.Tag]});
+			}, Database.Tag], subQuery: false});
 		},
 		getRibbons(root, {page}) {
 			page = page || 0;
@@ -57,7 +57,7 @@ export const resolvers = {
 				ribbons: Database.Ribbon.findAll({offset: 25 * page, limit: 25, include: [{
 					model: Database.User,
 					as: 'Owner'
-				}, Database.Tag]})
+				}, Database.Tag], subQuery: false})
 			};
 		},
 		findRibbons(root, {search, Tags, page}){
