@@ -26,6 +26,7 @@ export const resolvers = {
 	},
 	Mutation: {
 		async newRibbon(root, {ribbon}, {user}) {
+			console.log(ribbon);
 			delete ribbon.id;
 			if (!user) {
 				throw 'can\'t create ribbon without user';
