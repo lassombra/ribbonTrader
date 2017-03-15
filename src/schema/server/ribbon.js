@@ -1,43 +1,123 @@
 import {Database} from 'database/server';
-export const types = [`type Ribbon {
+import getDBUser from 'google/getDBUser';
+export const types = [
+`type PagedRibbons {
+	count: Int!
+	ribbons: [Ribbon!]!
+}`, `type Ribbon {
 	id: Int!
 	image: String
-	description: String
+	description: String!
+	title: String!
+	Owner: User!
+	Tags: [Tag!]!
 }`, `input RibbonInput {
 	id: Int
 	image: String
+	description: String!
+	title: String!
+	Tags: [TagInput!]!
+}`,`type Tag {
+	id: Int!
+	description: String!
+}`, `input TagInput {
+	id: Int!
 	description: String
 }`];
 export const query = [
 	`getRibbon(id: Int!): Ribbon`,
-	`getRibbons: [Ribbon!]!`
+	`getRibbons(page: Int): PagedRibbons!`,
+	`getTags: [Tag!]!`,
+	`findRibbons(search: String, Tags: [TagInput!], page: Int): PagedRibbons!`
 ];
 export const mutation = [
-	`newRibbon(ribbon: RibbonInput!): Ribbon!`,
+	`newOrUpdatedRibbon(ribbon: RibbonInput!): Ribbon!`,
 ];
 export const resolvers = {
+	Ribbon: {
+		Owner(ribbon) {
+			return ribbon.Owner || ribbon.getOwner();
+		},
+		Tags(ribbon) {
+			return ribbon.availabilityTypes || ribbon.getAvailabilityTypes();
+		}
+	},
 	Query: {
 		getRibbon(root, {id}) {
-			return Database.Ribbon.findOne({where: {id}});
+			return Database.Ribbon.findOne({where: {id}, include: [{
+				model: Database.User,
+				as: 'Owner'
+			}, Database.Tag]});
 		},
-		getRibbons() {
-			return Database.Ribbon.findAll();
+		getRibbons(root, {page}) {
+			page = page || 0;
+			return {
+				count: Database.Ribbon.count(),
+				ribbons: Database.Ribbon.findAll({offset: 25 * page, limit: 25, include: [{
+					model: Database.User,
+					as: 'Owner'
+				}, Database.Tag]})
+			};
+		},
+		findRibbons(root, {search, Tags, page}){
+			page = page || 0;
+			let options = {subQuery: false};
+			if (search) {
+				options.where = {$or: [
+					{title: {$like: `%${search}%`}},
+					{description: {$like: `%${search}%`}}
+				]};
+			}
+			if (Tags) {
+				options.include = [{
+					model: Database.Tag,
+					where: {id: {$in: Tags.map(tag => tag.id)}}
+				}];
+			}
+			let count = Database.Ribbon.count(options);
+			options.offset = page * 25;
+			options.limit = 25;
+			if (Tags) {
+				options.include.push({
+					model: Database.User,
+					as: 'Owner'
+				});
+			} else {
+				options.include = [{all: true}];
+			}
+			let ribbons = Database.Ribbon.findAll(options);
+			return {
+				count,
+				ribbons
+			};
+		},
+		getTags() {
+			return Database.Tag.findAll();
 		}
 	},
 	Mutation: {
-		async newRibbon(root, {ribbon}, {user}) {
-			console.log(ribbon);
-			delete ribbon.id;
-			if (!user) {
-				throw 'can\'t create ribbon without user';
-			}
-			let dbUser = await Database.User.findOne({googleKey: user.id});
+		async newOrUpdatedRibbon(root, {ribbon}, context) {
+			let dbUser = await getDBUser(context);
 			if (!dbUser) {
-				throw 'can\'t create ribbon because user not in database';
+				throw 'can\'t create ribbon without an authenticated user';
 			}
-			let dbRibbon = Database.Ribbon.build(ribbon);
+			let dbRibbon;
+			let tags = Promise.all(ribbon.Tags.map(tag => Database.Tag.findOne({where:{id: tag.id}})));
+			if (ribbon.id) {
+				dbRibbon = await Database.Ribbon.findOne({where: {id: ribbon.id}});
+				if (dbRibbon) {
+					let owner = await dbRibbon.getOwner();
+					if (owner.id !== dbUser.id) {
+						throw "can't modify someone else's ribbon";
+					}
+				}
+			}
+			tags = await tags;
+			dbRibbon = dbRibbon ? await (dbRibbon.update(ribbon, {save: false})) : Database.Ribbon.build(ribbon);
 			dbRibbon.setOwner(dbUser, {save: false});
-			return await dbRibbon.save();
+			dbRibbon.setAvailabilityTypes(tags, {save: false});
+			dbRibbon = await dbRibbon.save();
+			return Database.Ribbon.findOne({where: {id: dbRibbon.id}});
 		}
 	}
 };
