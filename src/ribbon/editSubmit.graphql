@@ -1,0 +1,5 @@
+mutation saveRibbon($ribbon:RibbonInput!) {
+    newOrUpdatedRibbon(ribbon:$ribbon) {
+        id
+    }
+}

@@ -1,0 +1,21 @@
+query loadRibbonEdit($ribbon:Int!, $hasId: Boolean!) {
+    getRibbon(id:$ribbon) @include(if: $hasId){
+        id
+        title
+        description
+        Tags{
+            id
+            description
+        }
+        Owner{
+            id
+        }
+    }
+    getCurrentUser{
+        id
+    }
+    getTags{
+        id
+        description
+    }
+}

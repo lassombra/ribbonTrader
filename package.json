@@ -81,6 +81,7 @@
     "react-apollo": "^0.10.0",
     "react-dom": "^15.4.2",
     "react-helmet": "^4.0.0",
+    "react-select": "^1.0.0-rc.3",
     "scriptjs": "^2.5.8",
     "sequelize": "^3.30.2",
     "source-map-support": "^0.4.11",

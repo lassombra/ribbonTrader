@@ -57,7 +57,7 @@ class Router {
 		let path = false;
 		if (!pathOrName.includes('/')) {
 			// path is a name
-			let route = routes.filter(route => route.name == pathOrName)[0];
+			let route = this.routes.filter(route => route.name == pathOrName)[0];
 			if (route) {
 				path = route.go(params, query);
 			}

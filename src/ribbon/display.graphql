@@ -1,0 +1,15 @@
+query($ribbon:Int!){
+    getRibbon(id:$ribbon){
+        description
+        title
+        image
+        Owner{
+            name
+            googlePicture
+            sched
+        }
+        Tags{
+            description
+        }
+    }
+}
