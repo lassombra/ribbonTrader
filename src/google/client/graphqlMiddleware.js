@@ -11,4 +11,4 @@ export default async function applyMiddleware(req, next) {
 	}
 	next();
 }
-loadGAuth().then(func => func().currentUser.listen(client.resetStore()));
+loadGAuth().then(func => func().currentUser.listen(() => client.resetStore()));

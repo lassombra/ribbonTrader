@@ -1,6 +1,0 @@
-mutation($ribbon: RibbonInput!){
-    newRibbon(ribbon:$ribbon){
-        id
-        description
-    }
-}

@@ -5,7 +5,7 @@ import {graphqlExpress} from 'graphql-server-express';
 import { graphiqlExpress } from 'graphql-server-express';
 import fs from 'fs';
 import path from 'path';
-import googleUserVerify from 'google/googleUserVerify';
+import googleUserVerify from 'google/server/googleUserVerify.js';
 
 const PORT=3000;
 const GraphQLOptions = {

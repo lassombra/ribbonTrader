@@ -1,8 +1,8 @@
 import React from 'react';
-import loadGAuth from 'google/google-api';
+import loadGAuth from 'google/client/google-api.js';
 import Handler from 'handler';
 
-let GAuth = loadGAuth();
+let GAuth = CLIENT && loadGAuth();
 
 
 export default class Login extends React.Component {

@@ -1,5 +1,5 @@
 import ApolloClient, { createNetworkInterface, toIdValue} from 'apollo-client';
-import applyMiddleware from 'google/graphqlMiddleware';
+import applyMiddleware from 'google/client/graphqlMiddleware.js';
 
 const dataIdFromObject = result => {
 	if (result.id && result.__typename) {

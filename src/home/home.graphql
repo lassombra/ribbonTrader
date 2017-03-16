@@ -1,0 +1,16 @@
+query HomePageQuery{
+    getRibbons{
+        count
+        ribbons{
+            id
+            title
+            description
+            Tags{
+                description
+            }
+            Owner{
+                name
+            }
+        }
+    }
+}

@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const ManifestPlugin = require('webpack-manifest-plugin');
 const nodeExternals = require('webpack-node-externals');
 //noinspection JSUnresolvedFunction
 module.exports = {
@@ -45,26 +44,8 @@ module.exports = {
 				loaders: ['json-loader', 'java-properties-loader']
 			},
 			{
-				test: /\.(scss|sass)$/,
-				loaders: [{
-					loader: 'css-loader/locals',
-					options: {
-						modules: false,
-						sourceMap: true,
-						camelCase: true
-					}
-				},'sass-loader']
-			},
-			{
-				test: /\.css$/,
-				loader: {
-					loader: 'css-loader/locals',
-					options: {
-						modules: false,
-						sourceMap: true,
-						camelCase: true
-					}
-				}
+				test: /\.(css|scss|sass)$/,
+				loader: 'null-loader'
 			},
 			{
 				test: /\.graphql$/,

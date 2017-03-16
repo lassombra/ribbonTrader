@@ -1,10 +1,11 @@
-import Home from 'home';
-import ReactDom from 'react-dom';
+import Router from '../router';
+import ReactDOM from 'react-dom';
 import React from 'react';
-import { ApolloProvider} from 'react-apollo';
-import client from 'graphqlClient';
+import App from './app.jsx';
 
-
-ReactDom.render(<ApolloProvider client={client}>
-	<Home />
-</ApolloProvider>, document.getElementById('appTarget'));
+window.setTimeout(
+	async function() {
+		let result = await Router.run(window.location.pathname);
+		ReactDOM.render(<App {...result} />, document.getElementById('appTarget'))
+	}, 0
+);

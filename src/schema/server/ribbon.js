@@ -1,5 +1,5 @@
 import {Database} from 'database/server';
-import getDBUser from 'google/getDBUser';
+import getDBUser from 'google/server/getDBUser.js';
 export const types = [
 `type PagedRibbons {
 	count: Int!
