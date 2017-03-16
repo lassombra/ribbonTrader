@@ -1,0 +1,17 @@
+mutation ($currentUser: CurrentUserInput!) {
+    updateCurrentUser(currentUser: $currentUser) {
+        googlePicture
+        name
+        displayedName
+        sched
+        ribbons {
+            id
+            title
+            description
+            Tags {
+                id
+                description
+            }
+        }
+    }
+}

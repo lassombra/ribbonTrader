@@ -1,0 +1,17 @@
+query{
+    getCurrentUser{
+        googlePicture
+        name
+        displayedName
+        sched
+        ribbons{
+            id
+            title
+            description
+            Tags{
+                id
+                description
+            }
+        }
+    }
+}
